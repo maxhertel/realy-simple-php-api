@@ -1,9 +1,9 @@
 <?php
 
-require_once 'autoload.php';
+require_once 'vendor/autoload.php';
 
-use Entities\Account\Account;
-use  Http\Router;
+use MaxPHPApi\Entities\Account\Account;
+use  MaxPHPApi\Http\Router;
 
 
 $router = new Router($_SERVER);

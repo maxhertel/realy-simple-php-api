@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace MaxPHPApi\Http;
 
 class Router implements RouterInterface {
     private array $routes = [];

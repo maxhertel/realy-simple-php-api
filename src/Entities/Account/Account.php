@@ -1,8 +1,7 @@
 <?php
 
-namespace Entities\Account;
+namespace MaxPHPApi\Entities\Account;
 
-use Entities\Account\Account as AccountAccount;
 
 class Account implements AccountInterface {
     protected float $balance;

@@ -1,5 +1,5 @@
 <?php
-namespace Entities\Account;
+namespace MaxPHPApi\Entities\Account;
 
 interface AccountInterface {
     public function getBalance(): float;
