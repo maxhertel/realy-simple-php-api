@@ -4,6 +4,7 @@ namespace MaxPHPApi\Entities\Account;
 
 
 class Account implements AccountInterface {
+    protected float $id;
     protected float $balance;
 
     public function __construct(float $initialBalance) {
