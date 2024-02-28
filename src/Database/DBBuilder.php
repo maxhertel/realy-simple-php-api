@@ -1,22 +1,26 @@
 <?php
 namespace MaxPHPApi\Database;
 
+use Dotenv\Dotenv;
 use PDO;
 
 class DBBuilder {
     private PDO $pdo;
 
     public function __construct(private string $host = '', private string $db = '', private string $user = '', private string $pass = '') {
-        if (!$this->host || !$this->db || !$this->user || !$this->pass) {
-            $this->host = getenv('DB_HOST');
-            $this->db = getenv('DB_NAME');
-            $this->user = getenv('DB_USER');
-            $this->pass = getenv('DB_PASS');
-        }
 
-        $dsn = "mysql:host=$this->host;dbname=$this->db;charset=utf8";
-        $this->pdo = new PDO($dsn, $this->user, $this->pass);
+        //TODO fix
+        //$dotenv = Dotenv::createImmutable(__DIR__ . '/../config');
+        //$dotenv->load();
+            $host = 'localhost';
+            $db = 'php-test';
+            $user = 'root';
+            $pass = 'root';
+
+        $dsn = "mysql:host=$host;dbname=$db;charset=utf8";
+        $this->pdo = new PDO($dsn, $user, $pass);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
     }
 
     public function query(string $sql, array $params = []): array {
@@ -30,6 +34,7 @@ class DBBuilder {
         if ($where) {
             $sql .= " WHERE $where";
         }
+      
         return $this->query($sql, $params);
     }
 
