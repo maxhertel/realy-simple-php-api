@@ -12,6 +12,7 @@ class Account implements AccountInterface {
         if ($id !== null) {
             $this->loadAccountData($id);
         }
+        $this->repository = new AccountRepository();
     }
 
     protected function loadAccountData(float $id): void {
@@ -23,7 +24,7 @@ class Account implements AccountInterface {
         }
     }
 
-    public static function findAccountByIdWithDefault(float $accountId): mixed
+    public static function findAccountByIdWithDefault(int $accountId): mixed
     {
         $accountRepository = new AccountRepository();
         $account = $accountRepository->findAccountById($accountId);
@@ -41,13 +42,17 @@ class Account implements AccountInterface {
         }
     }
 
-
     public function getId(): float {
         return $this->id;
+    }
+    public function getBalance(): float {
+        return $this->balance;
     }
 
     public function deposit(float $amount): void {
         $this->balance += $amount;
+        $this->repository->updateAccountBalance($this->id, $this->balance);
+        
     }
 
     public function withdraw(float $amount): void {
@@ -67,7 +72,7 @@ class Account implements AccountInterface {
         match ($action) {
             'deposit' => $this->deposit($data),
             'withdraw' => $this->withdraw($data),
-            'transfer' => $this->transfer($action,$accountReciver->id) ,
+            'transfer' => $this->transfer($action,$accountReciver->getId()) ,
             default => throw new \InvalidArgumentException("Ação inválida: $action"),
         };
     }

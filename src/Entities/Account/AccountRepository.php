@@ -36,5 +36,11 @@ class AccountRepository
         
         return null;
     }
-
+    
+    public function updateAccountBalance(float $accountId, float $newBalance): void
+    {
+        $data = ['balance' => $newBalance];
+        $where = 'id = '.$accountId;
+        $this->db->update('accounts', $data, $where, [$accountId]);
+    }
 }

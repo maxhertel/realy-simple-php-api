@@ -15,6 +15,8 @@ $router->addRoute('GET','/balance', function() {
     echo Account::findAccountByIdWithDefault($account_id);
 });
 $router->addRoute('POST','/event', function() {
+    $account = new Account(1);
+    $account->deposit(100);
 });
 
 
