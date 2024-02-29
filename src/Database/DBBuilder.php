@@ -42,7 +42,11 @@ class DBBuilder {
         $keys = implode(',', array_keys($data));
         $values = ':' . implode(',:', array_keys($data));
         $sql = "INSERT INTO $table ($keys) VALUES ($values)";
-        $this->query($sql, $data);
+        try {
+            $this->query($sql);
+        } catch (\PDOException $e) {
+            echo "Erro ao executar a query de inserção " . $e->getMessage();
+        }
     }
 
     public function update(string $table, array $data, string $where, array $params = []): void {
@@ -56,9 +60,13 @@ class DBBuilder {
         try {
             $this->query($sql);
         } catch (\PDOException $e) {
-            // Lidar com a exceção, por exemplo, logar o erro ou lançar novamente
-            // throw new \Exception("Erro ao executar a query de atualização: " . $e->getMessage());
             echo "Erro ao executar a query de atualização: " . $e->getMessage();
         }
+    }
+
+
+    public function truncate(string $table): void {
+        $sql = "DELETE FROM $table";
+        $this->query($sql);
     }
 }

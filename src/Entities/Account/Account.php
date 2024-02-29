@@ -9,21 +9,20 @@ class Account implements AccountInterface {
     protected AccountRepository $repository;
 
     public function __construct(array $data = null) {
+        $this->repository = new AccountRepository();
         if ($data['id'] !== null) {
             $this->loadAccountData($data);
         }
-        $this->repository = new AccountRepository();
+       
     }
 
     protected function loadAccountData(array $data): void {
         $accountRepository = new AccountRepository();
         $accountData = $accountRepository->findAccountById($data['id']);
+
         if ($accountData) {
             $this->id = $accountData['id'];
             $this->balance = $accountData['balance'];
-        }else{
-            $this->id = $data['id'];
-            $this->balance = $data['balance'];
         }
     }
 
@@ -38,15 +37,16 @@ class Account implements AccountInterface {
     public function deposit(float $amount): void {
         $this->balance += $amount;
         $this->repository->updateAccountBalance($this->id, $this->balance);
-        
+
     }
 
-    public function withdraw(float $amount): void {
+    public function withdraw(float $amount): ?float {
         if ($amount > $this->balance) {
-            throw new \Exception("Insufficient funds");
+            return null;
         }
         $this->balance -= $amount;
         $this->repository->updateAccountBalance($this->id, $this->balance);
+        return $this->balance;
     }
 
     public function transfer(float $amount, $account_id): void

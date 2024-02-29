@@ -17,24 +17,24 @@ class AccountRepository
         $this->db = $db;
     }
 
-    public function addAccount(Account $account): void
+    public function addAccount(array $account): void
     {
         $data = [
-            'balance' => $account->getBalance(),
-            'id' => $account->getId()
+            'balance' => $account['balance'],
+            'id' => $account['id']
         ];
         $this->db->insert('accounts', $data);
     }
 
-    public function findAccountById(float $accountId): ?Account
+    public function findAccountById(float $accountId): ?array
     {
         
         $result = $this->db->select('accounts', "id = $accountId", []);
         if (!empty($result)) {
             $accountData = $result[0];
-            return new Account($accountData['balance'], $accountData['id']);
+            
+            return ["balance" => $accountData['balance'],"id" => $accountData['id']];
         }
-        
         return null;
     }
     

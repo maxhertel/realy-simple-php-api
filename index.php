@@ -13,7 +13,7 @@ $router->addRoute('GET','/balance', function() {
     echo AccountService::findAccountByIdWithDefault($account_id);
 });
 $router->addRoute('POST','/event', function($json) {
-    AccountService::event($json);
+   echo  AccountService::event($json);
 });
 
 
