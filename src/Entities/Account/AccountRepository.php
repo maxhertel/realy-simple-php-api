@@ -26,12 +26,13 @@ class AccountRepository
         $this->db->insert('accounts', $data);
     }
 
-    public function findAccountById(float $accountId): mixed
+    public function findAccountById(float $accountId): ?Account
     {
         
         $result = $this->db->select('accounts', "id = $accountId", []);
         if (!empty($result)) {
-            return $result[0];
+            $accountData = $result[0];
+            return new Account($accountData['balance'], $accountData['id']);
         }
         
         return null;

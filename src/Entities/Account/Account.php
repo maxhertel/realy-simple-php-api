@@ -8,39 +8,25 @@ class Account implements AccountInterface {
     private float $balance  = 0.0;
     protected AccountRepository $repository;
 
-    public function __construct(int $id = null) {
-        if ($id !== null) {
-            $this->loadAccountData($id);
+    public function __construct(array $data = null) {
+        if ($data['id'] !== null) {
+            $this->loadAccountData($data);
         }
         $this->repository = new AccountRepository();
     }
 
-    protected function loadAccountData(float $id): void {
+    protected function loadAccountData(array $data): void {
         $accountRepository = new AccountRepository();
-        $accountData = $accountRepository->findAccountById($id);
+        $accountData = $accountRepository->findAccountById($data['id']);
         if ($accountData) {
             $this->id = $accountData['id'];
             $this->balance = $accountData['balance'];
+        }else{
+            $this->id = $data['id'];
+            $this->balance = $data['balance'];
         }
     }
 
-    public static function findAccountByIdWithDefault(int $accountId): mixed
-    {
-        $accountRepository = new AccountRepository();
-        $account = $accountRepository->findAccountById($accountId);
-
-        if ($account) {
-            return json_encode([
-                'id' => $account['id'],
-                'balance' => $account['balance']
-            ]);
-        } else {
-            return json_encode([
-                'id' => null,
-                'balance' => 0
-            ]);
-        }
-    }
 
     public function getId(): float {
         return $this->id;
@@ -60,20 +46,14 @@ class Account implements AccountInterface {
             throw new \Exception("Insufficient funds");
         }
         $this->balance -= $amount;
+        $this->repository->updateAccountBalance($this->id, $this->balance);
     }
 
     public function transfer(float $amount, $account_id): void
     {   
-        
+        $this->withdraw($amount);
+        $accountReciver = new Account($account_id);
+        $accountReciver->deposit($amount);
     }
 
-    public function event(string $action,array $data, ?Account $accountReciver): void 
-    {
-        match ($action) {
-            'deposit' => $this->deposit($data),
-            'withdraw' => $this->withdraw($data),
-            'transfer' => $this->transfer($action,$accountReciver->getId()) ,
-            default => throw new \InvalidArgumentException("Ação inválida: $action"),
-        };
-    }
 }
