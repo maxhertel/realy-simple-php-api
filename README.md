@@ -4,6 +4,14 @@
     just run:
         composer install
 
+## Install
+    db:
+        create a database
+        import to your mysql Database\Account.sql
+
+## Config
+    .env:
+        fiil it with your configs
 
 ## Run
     In the project main folder:
