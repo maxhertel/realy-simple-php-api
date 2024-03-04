@@ -44,4 +44,9 @@ class AccountRepository
         $where = 'id = '.$accountId;
         $this->db->update('accounts', $data, $where, [$accountId]);
     }
+
+    public function reset(): void
+    {
+        $this->db->truncate('accounts');
+    }
 }

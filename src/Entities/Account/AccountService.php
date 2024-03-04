@@ -68,4 +68,10 @@ class AccountService {
         }
         
     }
+    public static function reset() : void {
+
+        $accountRepository = new AccountRepository();
+        $account = $accountRepository->reset();
+        
+    }
 }
