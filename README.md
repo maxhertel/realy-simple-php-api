@@ -1,4 +1,4 @@
-# realy-simple-php-api
+# Realy Simple PHP API
 
 ## Install
     just run:
