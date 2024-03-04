@@ -4,7 +4,7 @@
     just run:
         composer install
 
-## Install
+## Database
     db:
         create a database
         import to your mysql Database\Account.sql
