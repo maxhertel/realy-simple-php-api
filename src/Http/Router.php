@@ -17,7 +17,7 @@ class Router implements RouterInterface {
         $this->routes[$method][$path] = $callback;
     }
 
-    public function route(): mixed {
+    public function route() {
         $uri = $this->server['REQUEST_URI'];
         $path = parse_url($uri, PHP_URL_PATH);
 

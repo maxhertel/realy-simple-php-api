@@ -7,7 +7,7 @@ use PDO;
 class DBBuilder {
     private PDO $pdo;
 
-    public function __construct(private string $host = '', private string $db = '', private string $user = '', private string $pass = '') {
+    function __construct( string $host = '', string $db = '', string $user = '',  string $pass = '') {
 
         //TODO fix - remove the trim()
         $dotenv = Dotenv::createMutable(trim(__DIR__,'.Database') . "/config");

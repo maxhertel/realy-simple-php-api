@@ -19,12 +19,34 @@ class AccountService {
     }
     public static function event(array $data): void 
     {
-        echo match ($data['type']) {
-            'deposit' => self::despositWithAcccontCreate($data['amount'], $data['destination']),
-            'withdraw' => self::withdraw($data['amount'], $data['origin']),
-            'transfer' => self::transfer($data['amount'],$data['origin'],$data['destination']),
-            default => throw new \InvalidArgumentException("Ação inválida"),
-        };
+        if (version_compare(PHP_VERSION, '8.0.0', '<')) {
+            switch ($data['type']) {
+                case 'deposit':
+                    echo self::despositWithAcccontCreate($data['amount'], $data['destination']);
+                    break;
+                case 'withdraw':
+                    echo self::withdraw($data['amount'], $data['origin']);
+                    break;
+                case 'transfer':
+                    echo self::transfer($data['amount'], $data['origin'], $data['destination']);
+                    break;
+                default:
+                    throw new \InvalidArgumentException("Ação inválida");
+            }
+        } else {
+            // try {
+            //     echo match ($data['type']) {
+            //         'deposit' => self::despositWithAcccontCreate($data['amount'], $data['destination']),
+            //         'withdraw' => self::withdraw($data['amount'], $data['origin']),
+            //         'transfer' => self::transfer($data['amount'],$data['origin'],$data['destination']),
+            //         default => throw new \InvalidArgumentException("Ação inválida"),
+            //     };
+            // } catch (\Throwable $th) {
+            //     //throw $th;
+            // }
+           
+        }
+       
     }
 
     private static function  despositWithAcccontCreate(float $amount,int $destination) : mixed {
